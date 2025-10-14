@@ -8,7 +8,7 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./userItem";
@@ -24,9 +24,12 @@ import {
 } from "@/components/ui/popover";
 import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/use-search";
+import { useSettings } from "@/hooks/use-settings";
 
 function Navigation() {
+  const settings = useSettings();
   const search = useSearch();
+  const params = useParams();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [width, setWidth] = useState(240);
@@ -124,7 +127,11 @@ function Navigation() {
                 icon={Search}
                 isSearch
               />
-              <Item onclick={() => {}} label="Settings" icon={Settings} />
+              <Item
+                onclick={settings.onOpen}
+                label="Settings"
+                icon={Settings}
+              />
               <Item
                 onclick={handleCreate}
                 label="New Page"

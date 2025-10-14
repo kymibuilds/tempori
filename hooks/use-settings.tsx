@@ -6,7 +6,7 @@ type SearchStore = {
   onClose: () => void;
 };
 
-export const useSettings = create<SearchStore>((set, get) => ({
+export const useSettings = create<SearchStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),

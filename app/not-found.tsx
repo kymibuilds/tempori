@@ -1,17 +1,24 @@
 "use client";
 
-import React from "react";
-import ASCIIText from "@/components/ui/ASCIIText";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-function NotFound() {
-  return <div className="h-full flex p-0 items-center justify-center bg-black">
-    <div>
-        <h1 className="text-5xl text-white max-w-100">Uh Oh this looks like an error.</h1>
+export default function NotFound() {
+  const router = useRouter()
+  return (
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="mx-auto max-w-md text-center">
+        <span className="text-7xl mb-6 block">🔍</span>
+        <h1 className="text-3xl font-semibold tracking-tight mb-3">
+          Page not found
+        </h1>
+        <p className="text-muted-foreground mb-8">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+        </p>
+        <Button onClick={()=>router.push("/documents")}>
+          Go Back
+        </Button>
+      </div>
     </div>
-    <div>
-        <ASCIIText  text='404' enableWaves={true} asciiFontSize={8}/>
-    </div>
-  </div>;
+  );
 }
-
-export default NotFound;
