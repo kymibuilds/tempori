@@ -30,7 +30,7 @@ function Navbar() {
               <Button variant="ghost" size="sm">Log in</Button>
             </SignInButton>
             <SignInButton mode="modal">
-              <Button size="sm">Get Nuta free</Button>
+              <Button size="sm">Get tempori free</Button>
             </SignInButton>
           </>
         )}
@@ -38,7 +38,7 @@ function Navbar() {
             <>
               <Button variant="default" size={"sm"} asChild>
                 <Link href={"/documents"}>
-                  Enter Nuta
+                  Enter tempori
                 </Link>
               </Button>
               <UserButton afterSignOutUrl="/"/>

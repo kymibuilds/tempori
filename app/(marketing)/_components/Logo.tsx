@@ -13,7 +13,7 @@ function Logo() {
     <div className='hidden md:flex items-center gap-x-2'>
         <Image src="/logo.svg"
         height="40" width="40" alt='logo' />
-        <p className={cn("font-semibold", font.className)}>NutaNotes</p>
+        <p className={cn("font-semibold", font.className)}>tempori</p>
     </div>
   )
 }

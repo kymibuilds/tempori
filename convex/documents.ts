@@ -1,6 +1,8 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
+import { title } from "process";
+import { handler } from "next/dist/build/templates/app-page";
 
 //archive functionality
 export const archive = mutation({
@@ -202,5 +204,59 @@ export const getSearch = query({
       .collect();
 
     return documents;
+  },
+});
+
+export const getById = query({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not Authenticated.");
+
+    const userId = identity.subject;
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new Error("Document not found");
+
+    // Allow public (published + not archived) docs
+    if (document.isPublished && !document.isArchived) {
+      return document;
+    }
+
+    // Private access
+    if (document.userId !== userId) throw new Error("Unauthorized");
+
+    return document; // <-- Add this
+  },
+});
+
+export const update = mutation({
+  args: {
+    id: v.id("documents"),
+    title: v.optional(v.string()),
+    content: v.optional(v.string()),
+    coverImage: v.optional(v.string()),
+    icon: v.optional(v.string()),
+    isPublished: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not Authenticated.");
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+    if (!existingDocument) throw new Error("Document not found");
+    if (existingDocument.userId !== userId) throw new Error("Unauthorized");
+
+    // Patch only the defined fields directly
+    await ctx.db.patch(args.id, {
+      ...(args.title !== undefined && { title: args.title }),
+      ...(args.content !== undefined && { content: args.content }),
+      ...(args.coverImage !== undefined && { coverImage: args.coverImage }),
+      ...(args.icon !== undefined && { icon: args.icon }),
+      ...(args.isPublished !== undefined && { isPublished: args.isPublished }),
+    });
+
+    return await ctx.db.get(args.id);
   },
 });

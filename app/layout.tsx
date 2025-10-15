@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nuta",
+  title: "tempori",
   description: "take your notes the correct way.",
   icons: {
     icon: [
@@ -46,7 +46,7 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-            storageKey="nuta-theme"
+            storageKey="tempori-theme"
           >
             <Toaster position="bottom-center" />
             <ModalProvider />

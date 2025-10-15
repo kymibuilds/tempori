@@ -46,6 +46,25 @@ function Navigation() {
     if (isMobile) setIsCollapsed(true);
   }, [pathname, isMobile]);
 
+  // Broadcast sidebar state whenever it changes
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("custom:sidebarState", { detail: isCollapsed })
+    );
+  }, [isCollapsed]);
+
+  // Open sidebar when receiving the custom event from Navbar
+  useEffect(() => {
+    const handler = () => resetWidth();
+    window.addEventListener("custom:openSidebar", handler as EventListener);
+    return () => {
+      window.removeEventListener(
+        "custom:openSidebar",
+        handler as EventListener
+      );
+    };
+  }, []);
+
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     isResizing.current = true;
@@ -69,6 +88,15 @@ function Navigation() {
   };
 
   const toggleCollapse = () => setIsCollapsed((prev) => !prev);
+
+  const resetWidth = () => {
+    if (isMobile) {
+      setIsCollapsed(false);
+    } else {
+      setIsCollapsed(false);
+      setWidth(240);
+    }
+  };
 
   const handleCreate = () => {
     const promise = create({ title: "Untitled" });
@@ -96,7 +124,10 @@ function Navigation() {
             ? "fixed left-0 top-0 z-50 border-r border-border"
             : "border-r border-border"
         }`}
-        style={{ width: isCollapsed ? 0 : width }}
+        style={{
+          width: isCollapsed ? 0 : width,
+          transition: "width 0.1 ease", // <-- smooth animation
+        }}
       >
         <div className={`flex flex-col h-full ${isCollapsed ? "hidden" : ""}`}>
           {/* Header Section */}
@@ -184,7 +215,7 @@ function Navigation() {
       </aside>
 
       {/* Mobile menu button */}
-      {isCollapsed && (
+      {isMobile && isCollapsed && (
         <button
           onClick={toggleCollapse}
           className="fixed top-3 left-3 z-30 h-9 w-9 flex items-center justify-center rounded-md bg-secondary hover:bg-accent border border-border shadow-sm transition-colors"

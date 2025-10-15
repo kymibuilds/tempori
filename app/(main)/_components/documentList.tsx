@@ -64,7 +64,7 @@ function DocumentList({ parentDocumentId, level = 0 }: DocumentListProps) {
         <div key={document._id}>
           <Item
             id={document._id}
-            onclick={() => redirect(document._id)}
+            onclick={() => onRedirect(document._id)}
             label={document.title}
             icon={FileIcon}
             documentIcon={document.icon}
