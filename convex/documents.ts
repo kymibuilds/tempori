@@ -1,8 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { Doc, Id } from "./_generated/dataModel";
-import { title } from "process";
-import { handler } from "next/dist/build/templates/app-page";
+import { Id } from "./_generated/dataModel";
 
 //archive functionality
 export const archive = mutation({
