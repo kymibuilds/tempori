@@ -104,7 +104,7 @@ export const Item = ({
         "group min-h-[27px] text-sm py-1 pr-3 w-full flex items-center font-normal gap-2 rounded-sm cursor-pointer transition-colors duration-150",
         active
           ? "bg-primary/8 text-foreground"
-          : "text-muted-foreground hover:bg-accent/20 dark:hover:bg-accent/30"
+          : "text-muted-foreground hover:bg-accent/30 dark:hover:bg-accent/20"
       )}
     >
       {/* Chevron for expandable items */}
@@ -149,7 +149,7 @@ export const Item = ({
                 role="button"
                 className="opacity-0 group-hover:opacity-100 h-4 w-4 ml-auto rounded hover:bg-neutral-300 dark:hover:bg-neutral-600"
               >
-                <MoreHorizontal className="h-4 w-4  rounded text-muted-foreground" />
+                <MoreHorizontal className="h-4 w-4 rounded text-muted-foreground" />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -158,10 +158,6 @@ export const Item = ({
               side="right"
               forceMount
             >
-              {/* <DropdownMenuItem onClick={() => {}}>
-                <Trash className="h-4 w-4 mr-2 rounded text-muted-foreground" />
-                <p className="text-foreground text-sm">Delete note</p>
-              </DropdownMenuItem> */}
               <DropdownMenuItem onClick={onArchive}>
                 <Archive className="h-4 w-4 mr-2 rounded text-muted-foreground" />
                 <p className="text-foreground text-sm">Archive note</p>
@@ -180,9 +176,9 @@ export const Item = ({
           <div
             role="button"
             onClick={onCreate}
-            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded  hover:bg-neutral-300 dark:hover:bg-neutral-600"
+            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded hover:bg-neutral-300 dark:hover:bg-neutral-600"
           >
-            <PlusIcon className="h-4 w-4 text-muted-freground" />
+            <PlusIcon className="h-4 w-4 text-muted-foreground" />
           </div>
         </div>
       )}

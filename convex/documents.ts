@@ -205,25 +205,36 @@ export const getSearch = query({
   },
 });
 
+
 export const getById = query({
   args: { documentId: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not Authenticated.");
 
-    const userId = identity.subject;
     const document = await ctx.db.get(args.documentId);
-    if (!document) throw new Error("Document not found");
 
-    // Allow public (published + not archived) docs
-    if (document.isPublished && !document.isArchived) {
+    if (!document) {
+      return null; // Document doesn't exist
+    }
+
+    // Allow access if document is published (public)
+    if (document.isPublished) {
       return document;
     }
 
-    // Private access
-    if (document.userId !== userId) throw new Error("Unauthorized");
+    // For non-published documents, require authentication
+    if (!identity) {
+      return null; // Not authenticated - return null instead of throwing
+    }
 
-    return document; // <-- Add this
+    const userId = identity.subject;
+
+    // Check if user owns the document or has access
+    if (document.userId !== userId) {
+      return null; // Unauthorized - return null instead of throwing
+    }
+
+    return document;
   },
 });
 
@@ -271,6 +282,24 @@ export const removeIcon = mutation({
     if (existingDocument.userId !== userId) throw new Error("Unauthorized");
 
     await ctx.db.patch(args.id, { icon: undefined });
+    return await ctx.db.get(args.id);
+  },
+});
+
+export const removeCoverImage = mutation({
+  args: {
+    id: v.id("documents"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not Authenticated.");
+
+    const userId = identity.subject;
+    const existingDocument = await ctx.db.get(args.id);
+    if (!existingDocument) throw new Error("Document not found");
+    if (existingDocument.userId !== userId) throw new Error("Unauthorized");
+
+    await ctx.db.patch(args.id, { coverImage: undefined });
     return await ctx.db.get(args.id);
   },
 });

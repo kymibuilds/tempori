@@ -55,8 +55,10 @@ function Title({ initialData }: TitleProps) {
   };
 
   return (
-    <div className="flex items-center gap-x-1 border rounded-sm">
-      {initialData?.icon && <p>{initialData.icon}</p>}
+    <div className="flex items-center gap-x-2 border rounded-sm px-1">
+      {initialData?.icon && (
+        <span className="flex-shrink-0 text-lg">{initialData.icon}</span>
+      )}
       {isEditing ? (
         <Input
           ref={inputRef}
@@ -71,7 +73,7 @@ function Title({ initialData }: TitleProps) {
           onClick={enableInput}
           variant="ghost"
           size="sm"
-          className="w-full"
+          className="w-full justify-start px-0"
         >
           <span className="truncate">{initialData?.title || "Untitled"}</span>
         </Button>

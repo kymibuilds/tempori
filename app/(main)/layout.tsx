@@ -2,13 +2,17 @@
 
 import { Spinner } from "@/components/ui/spinner";
 import { useConvexAuth } from "convex/react";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import Navigation from "./_components/navigation";
 import { SearchCommand } from "@/components/search-command";
 import Navbar from "./_components/navbar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const pathname = usePathname();
+  
+  // Check if current route is a preview route
+  const isPreviewRoute = pathname?.startsWith("/preview/");
 
   if (isLoading) {
     return (
@@ -17,15 +21,18 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
     );
   }
-  if (!isAuthenticated) {
+  
+  // Allow preview routes without authentication
+  if (!isAuthenticated && !isPreviewRoute) {
     return redirect("/");
   }
+  
   return (
     <div className="h-full flex dark:bg-[#1F1F1F]">
-      <Navigation />
+      {!isPreviewRoute && <Navigation />}
       <main className="flex-1 h-full overflow-y-auto">
-        <Navbar />
-        <SearchCommand />
+        {!isPreviewRoute && <Navbar />}
+        {!isPreviewRoute && <SearchCommand />}
         {children}
       </main>
     </div>
