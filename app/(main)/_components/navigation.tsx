@@ -8,8 +8,8 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import React, { useState, useRef, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./userItem";
 import { useMutation } from "convex/react";
@@ -30,7 +30,6 @@ function Navigation() {
   const router = useRouter();
   const settings = useSettings();
   const search = useSearch();
-  const params = useParams();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [width, setWidth] = useState(() => {
@@ -81,6 +80,15 @@ function Navigation() {
     );
   }, [isCollapsed]);
 
+  const resetWidth = useCallback(() => {
+    if (isMobile) {
+      setIsCollapsed(false);
+    } else {
+      setIsCollapsed(false);
+      setWidth(lastWidth.current);
+    }
+  }, [isMobile]);
+
   // Open sidebar when receiving the custom event from Navbar
   useEffect(() => {
     const handler = () => resetWidth();
@@ -91,7 +99,7 @@ function Navigation() {
         handler as EventListener
       );
     };
-  }, []);
+  }, [resetWidth]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -125,15 +133,6 @@ function Navigation() {
       setWidth(0);
     }
     setIsCollapsed((prev) => !prev);
-  };
-
-  const resetWidth = () => {
-    if (isMobile) {
-      setIsCollapsed(false);
-    } else {
-      setIsCollapsed(false);
-      setWidth(lastWidth.current);
-    }
   };
 
   const handleCreate = () => {

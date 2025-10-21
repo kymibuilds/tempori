@@ -10,9 +10,8 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Globe2, Check, Copy, Link2 } from "lucide-react";
+import { Globe2, Check, Copy } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
-import { Input } from "@/components/ui/input";
 
 interface PublishProps {
   initialData: {

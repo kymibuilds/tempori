@@ -7,10 +7,8 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useQuery, useMutation } from "convex/react";
 import {
   SearchIcon,
-  RotateCcwIcon,
   Trash2Icon,
   RotateCcw,
-  DeleteIcon,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
