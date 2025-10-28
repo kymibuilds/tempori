@@ -4,7 +4,6 @@ import { useScrollTop } from "@/hooks/use-scroll-top";
 import React from "react";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { useConvexAuth } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
@@ -17,7 +16,7 @@ function Navbar() {
   return (
     <div
       className={cn(
-        "z-50 bg-background fixed top-0 flex items-center w-full py-4 px-6 dark:bg-[#1F1F1F]",
+        "z-50 fixed top-0 flex items-center w-full py-4 px-6 bg-white text-[#2f3437]",
         scrolled && "border-b shadow-sm"
       )}
     >
@@ -34,17 +33,14 @@ function Navbar() {
             </SignInButton>
           </>
         )}
-          {isAuthenticated && !isLoading && (
-            <>
-              <Button variant="default" size={"sm"} asChild>
-                <Link href={"/documents"}>
-                  Enter tempori
-                </Link>
-              </Button>
-              <UserButton afterSignOutUrl="/"/>
-            </>
-          )}
-        <ModeToggle />
+        {isAuthenticated && !isLoading && (
+          <>
+            <Button variant="default" size="sm" asChild>
+              <Link href="/documents">Enter tempori</Link>
+            </Button>
+            <UserButton afterSignOutUrl="/" />
+          </>
+        )}
       </div>
     </div>
   );

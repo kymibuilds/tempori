@@ -1,21 +1,21 @@
-import React from 'react'
-import Logo from './Logo'
-import { Button } from '@/components/ui/button'
+import React from "react";
+import Logo from "./Logo";
+import { Button } from "@/components/ui/button";
 
 function Footer() {
   return (
-    <div className='flex items-center w-full p-2 bg-background z-50 dark:bg-[#1F1F1F]'>
-        <Logo />
-        <div className='md:ml-auto w-full justify-between md:justify-end flex items-center gap-x-2 text-muted-foreground'>
-            <Button variant="ghost" size="sm">
-                Privacy Policy
-            </Button>
-            <Button variant="ghost" size="sm">
-                Terms and Conditions
-            </Button>
-        </div>
+    <div className="flex items-center justify-between w-full px-6 border-t text-sm text-gray-500 bg-white">
+      <Logo />
+      <div className="flex items-center gap-x-4">
+        <Button variant="ghost" size="sm">
+          Privacy Policy
+        </Button>
+        <Button variant="ghost" size="sm">
+          Terms
+        </Button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
