@@ -10,7 +10,7 @@ import Navbar from "./_components/navbar";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const pathname = usePathname();
-  
+
   // Check if current route is a preview route
   const isPreviewRoute = pathname?.startsWith("/preview/");
 
@@ -21,12 +21,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
     );
   }
-  
+
   // Allow preview routes without authentication
   if (!isAuthenticated && !isPreviewRoute) {
     return redirect("/");
   }
-  
+
   return (
     <div className="h-full flex dark:bg-[#1F1F1F]">
       {!isPreviewRoute && <Navigation />}
