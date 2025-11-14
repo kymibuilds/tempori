@@ -139,3 +139,17 @@ body,
 .animate-border-blink {
   animation: borderBlink 1.5s ease-in-out infinite;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE + old Edge */
+body {
+  -ms-overflow-style: none;
+}

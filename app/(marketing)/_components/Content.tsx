@@ -21,7 +21,7 @@ function Content() {
           className="rounded-md"
         />
       </div>
-      <div className="flex items-center gap-6 mt-8">
+      <div className="flex items-center gap-6 mt-8 py-1">
         <a 
           href="https://twitter.com/kymicrashedit" 
           target="_blank" 
