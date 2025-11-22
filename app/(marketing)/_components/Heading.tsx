@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { useConvexAuth } from "convex/react";
 import { ArrowRightIcon } from "lucide-react";
@@ -10,7 +11,12 @@ function Heading() {
   const router = useRouter();
 
   return (
-    <div className="max-w-4xl h-screen space-y-6 text-center">
+    <div
+      className="
+        max-w-4xl h-screen space-y-6 text-center
+        dark:bg-transparent dark:text-inherit
+      "
+    >
       {/* YC Badge */}
       <div className="inline-flex items-center gap-2 text-sm md:text-base text-neutral-700 px-4 rounded-full py-2 border-2">
         <span>Not Backed by</span>
@@ -36,8 +42,8 @@ function Heading() {
 
       {/* CTA Buttons */}
       <div className="flex justify-center pt-4 gap-4 flex-wrap">
-        <Button 
-          size="lg" 
+        <Button
+          size="lg"
           variant="outline"
           className="rounded-xl px-10 text-lg font-light bg-transparent border-2 border-neutral-800/70 hover:border-neutral-400 hover:bg-neutral-50 transition-all"
         >
@@ -45,9 +51,9 @@ function Heading() {
         </Button>
 
         {isLoading ? (
-          <Button 
-            disabled 
-            size="lg" 
+          <Button
+            disabled
+            size="lg"
             className="rounded-xl px-10 text-lg font-light"
           >
             <span className="animate-pulse">Loading...</span>

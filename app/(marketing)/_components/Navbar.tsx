@@ -14,17 +14,15 @@ function Navbar() {
 
   return (
     <div
-      // transition + default background, then glassy when scrolled
       className={cn(
-        // Reduced default horizontal padding from px-6 to px-4 for mobile space
-        "z-50 fixed top-0 flex items-center w-full py-2 px-4 md:px-6 text-[#2f3437] transition-colors duration-300 ease-in-out",
-        // default: opaque white
-        !scrolled && "bg-white",
-        // scrolled: glassmorphism
+        "z-50 fixed top-0 flex items-center w-full py-2 px-4 md:px-6",
+        "text-[#2f3437] dark:text-[#2f3437]",
+        "bg-white dark:bg-white",
+        "transition-colors duration-300 ease-in-out",
+        !scrolled && "bg-white dark:bg-white",
         scrolled &&
-          "bg-white/30 backdrop-blur-md border-b border-neutral-200/30 shadow-sm"
+          "bg-white/30 dark:bg-white/30 backdrop-blur-md border-b border-neutral-200/30 dark:border-neutral-200/30 shadow-sm"
       )}
-      // inline fallback for browsers / Tailwind setups that don't include backdrop utilities
       style={{
         backdropFilter: scrolled ? "blur(8px)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(8px)" : "none",
@@ -37,24 +35,28 @@ function Navbar() {
 
         {!isAuthenticated && !isLoading && (
           <>
-            {/* 1. Log In Button: Reduced padding (px-4) for mobile */}
             <SignInButton mode="modal">
               <Button
-                // Changed size from "lg" to "sm" to reduce vertical bulk on mobile
                 size="sm"
                 variant="outline"
-                // Adjusted padding for mobile: px-4 on small screens, px-10 on medium screens
-                className="rounded-xl px-4 md:px-10 text-base md:text-lg font-light bg-transparent border-2 border-neutral-800/70 hover:border-neutral-400 hover:bg-neutral-50 transition-all"
+                className="
+                  rounded-xl px-4 md:px-10 text-base md:text-lg font-light
+                  bg-transparent border-2 border-neutral-800/70
+                  hover:border-neutral-400 hover:bg-neutral-50
+                  transition-all
+                "
               >
                 Log in
               </Button>
             </SignInButton>
 
-            {/* 2. Get Started Button: Hidden on small screens (mobile) using hidden sm:block */}
             <SignInButton mode="modal">
               <Button
-                // Hidden by default, visible only on 'sm' screens and up
-                className="hidden sm:block rounded-xl px-10 text-lg font-light bg-neutral-900 text-white hover:bg-neutral-800 transition-all"
+                className="
+                  hidden sm:block rounded-xl px-10 text-lg font-light
+                  bg-neutral-900 text-white hover:bg-neutral-800
+                  transition-all
+                "
                 size="lg"
               >
                 Get Started
