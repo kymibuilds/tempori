@@ -7,7 +7,6 @@ import { SignInButton, UserButton } from "@clerk/clerk-react";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { useConvexAuth } from "convex/react";
-import Logo from "./logo"; // Assuming you might want a separate logo component later
 
 function Navbar() {
   const { isAuthenticated, isLoading } = useConvexAuth();

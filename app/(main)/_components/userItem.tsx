@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronsLeftRight, LogOutIcon } from "lucide-react";
 import { SignOutButton, useUser } from "@clerk/clerk-react";
-import { Button } from "@/components/ui/button"; // Assuming a Button component for better styling
 
 function UserItem() {
   const { user } = useUser();

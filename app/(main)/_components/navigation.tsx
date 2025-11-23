@@ -26,7 +26,8 @@ import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 
-const TrapFocus = ({ children }) => <>{children}</>;
+// FIXED: explicitly typed children
+const TrapFocus = ({ children }: { children: React.ReactNode }) => <>{children}</>;
 
 function Navigation() {
   const router = useRouter();
@@ -34,7 +35,7 @@ function Navigation() {
   const search = useSearch();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [isResizing, setIsResizing] = useState(false); // State for visual feedback
+  const [isResizing, setIsResizing] = useState(false);
   const [width, setWidth] = useState(() => {
     if (typeof window !== "undefined") {
       return Number(localStorage.getItem("sidebarWidth")) || 240;
@@ -53,7 +54,6 @@ function Navigation() {
   const isResizingRef = useRef(false);
   const create = useMutation(api.documents.create);
 
-  // Save width to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== "undefined" && width > 0) {
       localStorage.setItem("sidebarWidth", width.toString());
@@ -61,7 +61,6 @@ function Navigation() {
     }
   }, [width]);
 
-  // Save collapsed state to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("sidebarCollapsed", isCollapsed.toString());
@@ -76,7 +75,6 @@ function Navigation() {
     if (isMobile) setIsCollapsed(true);
   }, [pathname, isMobile]);
 
-  // Broadcast sidebar state whenever it changes
   useEffect(() => {
     window.dispatchEvent(
       new CustomEvent("custom:sidebarState", { detail: isCollapsed })
@@ -85,14 +83,13 @@ function Navigation() {
 
   const resetWidth = useCallback(() => {
     if (isMobile) {
-      setIsCollapsed(true); // Always collapse on mobile reset to ensure coverage
+      setIsCollapsed(true);
     } else {
       setIsCollapsed(false);
       setWidth(lastWidth.current);
     }
   }, [isMobile]);
 
-  // Open sidebar when receiving the custom event from Navbar
   useEffect(() => {
     const handler = () => resetWidth();
     window.addEventListener("custom:openSidebar", handler as EventListener);
@@ -107,7 +104,7 @@ function Navigation() {
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     isResizingRef.current = true;
-    setIsResizing(true); // Set state for visual feedback
+    setIsResizing(true);
     const startX = e.clientX;
     const startWidth = width;
 
@@ -121,7 +118,7 @@ function Navigation() {
 
     const onMouseUp = () => {
       isResizingRef.current = false;
-      setIsResizing(false); // Clear state for visual feedback
+      setIsResizing(false);
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
@@ -132,10 +129,8 @@ function Navigation() {
 
   const toggleCollapse = () => {
     if (isCollapsed) {
-      // Expanding
       setWidth(lastWidth.current);
     } else {
-      // Collapsing
       lastWidth.current = width;
     }
     setIsCollapsed((prev) => !prev);
@@ -145,7 +140,7 @@ function Navigation() {
     const promise = create({ title: "Untitled" }).then((documentId) => {
       router.push(`/documents/${documentId}`);
     });
-    
+
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created",
@@ -173,7 +168,7 @@ function Navigation() {
           }`}
         style={{
           width: isMobile && !isCollapsed ? sidebarWidth : sidebarWidth,
-          transform: isMobile ? transformStyle : "none", // 1. Smooth Transition
+          transform: isMobile ? transformStyle : "none",
           transition: isMobile ? "transform 0.2s ease-out" : "width 0.1s ease",
         }}
       >
@@ -185,8 +180,7 @@ function Navigation() {
                 onClick={toggleCollapse}
                 aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
-                {/* 4. Consistent Icon Sizing: Changed to h-4 w-4 */}
-                <ChevronsLeftIcon className="h-4 w-4" /> 
+                <ChevronsLeftIcon className="h-4 w-4" />
               </button>
             </div>
 
@@ -219,8 +213,7 @@ function Navigation() {
 
           <div className="flex-1 overflow-y-auto px-3 py-3">
             <div className="space-y-1">
-              {/* DocumentList is expected to use Item and inherit hover styles */}
-              <DocumentList /> 
+              <DocumentList />
               <Item onclick={handleCreate} icon={Plus} label="Add a page" />
             </div>
           </div>
@@ -228,8 +221,7 @@ function Navigation() {
           <div className="flex-shrink-0 border-t border-border/40 px-3 py-3">
             <Popover>
               <PopoverTrigger asChild>
-                {/* Implemented hover on Trash button */}
-                <button className="w-full flex items-center gap-x-2 px-2 py-1.5 rounded-sm hover:bg-accent text-sm text-muted-foreground transition-colors"> 
+                <button className="w-full flex items-center gap-x-2 px-2 py-1.5 rounded-sm hover:bg-accent text-sm text-muted-foreground transition-colors">
                   <Trash className="h-4 w-4" />
                   <span>Trash</span>
                 </button>
@@ -240,8 +232,7 @@ function Navigation() {
                 side={isMobile ? "bottom" : "right"}
                 align="start"
               >
-                {/* 3. Focus Management in Popover: Using TrapFocus */}
-                <TrapFocus> 
+                <TrapFocus>
                   <div className="p-4">
                     <h4 className="font-medium text-sm mb-1">Trash</h4>
                     <TrashBox />
@@ -256,9 +247,8 @@ function Navigation() {
           <div
             ref={resizerRef}
             onMouseDown={handleMouseDown}
-            // 2. Enhanced Resize Experience: Added bg-primary/40 when resizing
             className={`absolute h-full w-1 right-0 top-0 cursor-ew-resize bg-transparent transition-colors 
-              ${isResizing ? "bg-primary/40" : "hover:bg-primary/20"}`} 
+              ${isResizing ? "bg-primary/40" : "hover:bg-primary/20"}`}
           />
         )}
       </aside>

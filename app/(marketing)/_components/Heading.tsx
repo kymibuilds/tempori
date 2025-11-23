@@ -50,7 +50,7 @@ function Heading() {
             size="lg"
             className="rounded-xl px-10 text-lg font-medium transition-all duration-150 shadow-md"
           >
-            <Spinner size="lg" className="mr-2" />
+            <Spinner size="lg" />
             Loading Jottr...
           </Button>
         ) : isAuthenticated ? (
