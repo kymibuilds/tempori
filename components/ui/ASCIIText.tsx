@@ -108,11 +108,6 @@ class AsciiFilter {
       charset ??
       " .'`^\",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
 
-    if (this.context) {
-      this.context.imageSmoothingEnabled = false;
-      this.context.imageSmoothingEnabled = false;
-    }
-
     this.onMouseMove = this.onMouseMove.bind(this);
     document.addEventListener("mousemove", this.onMouseMove);
   }

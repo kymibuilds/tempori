@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import { create } from "zustand";
 
 type coverImageStoreProps = {

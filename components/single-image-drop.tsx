@@ -11,11 +11,7 @@ import * as React from 'react';
 export function SingleImageDropzoneUsage() {
   const { edgestore } = useEdgeStore();
 
-  const uploadFn: UploadFn = React.useCallback(
-    async ({ file, onProgressChange, signal }) => {
-      const res = await edgestore.publicImages.upload({
-        file,
-        signal,
+
         onProgressChange,
       });
       // you can run some server action or api here

@@ -8,7 +8,6 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation"; // Add this import
-import { Analytics } from "@vercel/analytics/next"
 
 function Documents() {
   const { user } = useUser();
@@ -30,7 +29,7 @@ function Documents() {
   };
   
   return (
-    <div className="h-full flex flex-col items-center justify-center space-y-4">
+    <div className="min-h-screen flex flex-col items-center justify-center space-y-4 overflow-hidden">
       <Image
         src="/workspace/empty.png"
         alt="image"
@@ -43,9 +42,8 @@ function Documents() {
         welcome to {user?.firstName}&apos;s workspace
       </h2>
       <Button onClick={onCreate}>
-        <PlusCircle className="h-4 w-4 align-middle" /> Create a note
+        <PlusCircle className="h-4 w-4 mr-2" /> Create a Note
       </Button>
-      <Analytics/>
     </div>
   );
 }

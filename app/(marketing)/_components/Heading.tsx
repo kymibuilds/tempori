@@ -45,7 +45,7 @@ function Heading() {
         <Button
           size="lg"
           variant="outline"
-          className="rounded-xl px-10 text-lg font-light bg-transparent border-2 border-neutral-800/70 hover:border-neutral-400 hover:bg-neutral-50 transition-all"
+          className="rounded-xl px-10 text-lg font-light bg-transparent border-2 border-neutral-800/70 hover:border-neutral-400 transition-all"
         >
           Extension
         </Button>

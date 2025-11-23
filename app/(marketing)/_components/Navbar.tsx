@@ -54,7 +54,7 @@ function Navbar() {
               <Button
                 className="
                   hidden sm:block rounded-xl px-10 text-lg font-light
-                  bg-neutral-900 text-white hover:bg-neutral-800
+                  bg-neutral-900 hover:bg-neutral-800
                   transition-all
                 "
                 size="lg"
