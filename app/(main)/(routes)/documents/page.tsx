@@ -7,39 +7,37 @@ import { PlusCircle } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation"; // Add this import
+import { useRouter } from "next/navigation";
 
 function Documents() {
   const { user } = useUser();
-  const router = useRouter(); // Add this line
+  const router = useRouter();
   const create = useMutation(api.documents.create);
-  
+
   const onCreate = () => {
-    const promise = create({ title: "Untitled" })
-      .then((documentId) => {
-        // Navigate to the new document after creation
-        router.push(`/documents/${documentId}`);
-      });
-    
+    const promise = create({ title: "Untitled" }).then((documentId) => {
+      router.push(`/documents/${documentId}`);
+    });
+
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
       error: "Failed to create a new note.",
     });
   };
-  
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center space-y-4 overflow-hidden">
+    <div className="h-screen flex flex-col items-center justify-center gap-4 overflow-hidden">
       <Image
         src="/workspace/empty.png"
         alt="image"
-        width={300}
-        height={300}
+        width={200}
+        height={200}
         quality={40}
-        className=""
+        className="block"
       />
-      <h2 className="text-lg font-medium">
-        welcome to {user?.firstName}&apos;s workspace
+      <h2 className="text-lg font-medium m-0">
+        welcome to {user?.firstName}'s workspace
       </h2>
       <Button onClick={onCreate}>
         <PlusCircle className="h-4 w-4 mr-2" /> Create a Note
@@ -47,4 +45,5 @@ function Documents() {
     </div>
   );
 }
+
 export default Documents;

@@ -13,11 +13,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   // Check if current route is a preview route
   const isPreviewRoute = pathname?.startsWith("/preview/");
+  const isMainDocumentsPage = pathname?.endsWith("/documents");
 
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
         <Spinner size={"lg"} />
+        <p>loading your documents</p>
       </div>
     );
   }
@@ -31,7 +33,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="h-full flex dark:bg-[#1F1F1F]">
       {!isPreviewRoute && <Navigation />}
       <main className="flex-1 h-full overflow-y-auto relative">
-        {!isPreviewRoute && <Navbar />}
+        {!isPreviewRoute && !isMainDocumentsPage && <Navbar />}
         {!isPreviewRoute && <SearchCommand />}
         {children}
       </main>
