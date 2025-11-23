@@ -18,9 +18,14 @@ function Heading() {
         flex flex-col items-center text-center space-y-8
       "
     >
-      {/* Module 1: YC Badge - Now with Glassmorphism effect */}
-      <div className="inline-flex items-center gap-2 text-sm md:text-base text-foreground/70 px-4 rounded-full py-2 border border-border transition-all duration-300
-        bg-background/60 backdrop-blur-sm"> {/* Added glassmorphism classes */}
+      {/* YC Badge - static colors / no theme */}
+      <div
+        className="
+          inline-flex items-center gap-2 text-sm md:text-base
+          text-gray-600 px-4 rounded-full py-2 border border-gray-300
+          bg-white/70 backdrop-blur-sm
+        "
+      >
         <span>Not Backed by</span>
         <span className="inline-flex items-center gap-1.5">
           <span className="px-2 py-0.5 bg-orange-500 rounded font-bold text-white">
@@ -30,25 +35,25 @@ function Heading() {
         </span>
       </div>
 
-      {/* Module 2: Main Heading - Gradient reverted to original (more contrast) */}
+      {/* Main Heading */}
       <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight max-w-3xl">
-        <span className="bg-gradient-to-b from-foreground to-neutral-500 dark:to-neutral-400 bg-clip-text text-transparent"> 
+        <span className="bg-gradient-to-b from-black to-gray-500 bg-clip-text text-transparent">
           The simplest place to jot your thoughts.
         </span>
       </h1>
 
-      {/* Module 3: Subheading */}
-      <p className="text-lg md:text-xl font-normal text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+      {/* Subheading */}
+      <p className="text-lg md:text-xl font-normal text-gray-600 max-w-3xl mx-auto leading-relaxed">
         Capture, organize, and recall your thoughts instantly. Simple, fast note-taking that fits seamlessly into your digital life.
       </p>
 
-      {/* Module 4: CTA Buttons */}
+      {/* CTA Buttons */}
       <div className="pt-8">
         {isLoading ? (
           <Button
             disabled
             size="lg"
-            className="rounded-xl px-10 text-lg font-medium transition-all duration-150 shadow-md"
+            className="rounded-xl px-10 text-lg font-medium shadow-md"
           >
             <Spinner size="lg" />
             Loading Jottr...
@@ -57,8 +62,7 @@ function Heading() {
           <Button
             onClick={() => router.push("/documents")}
             size="lg"
-            // Applying custom primary button styles
-            className="group rounded-xl px-10 text-lg font-medium transition-all duration-150 shadow-md hover:shadow-lg hover:scale-[1.02]"
+            className="group rounded-xl px-10 text-lg font-medium shadow-md hover:shadow-lg hover:scale-[1.02]"
           >
             Enter Workspace
             <ArrowRightIcon className="h-5 w-5 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
@@ -67,8 +71,7 @@ function Heading() {
           <SignInButton mode="modal">
             <Button
               size="lg"
-              // Applying custom primary button styles
-              className="group rounded-xl px-10 text-lg font-medium transition-all duration-150 shadow-md hover:shadow-lg hover:scale-[1.02]"
+              className="group rounded-xl px-10 text-lg font-medium shadow-md hover:shadow-lg hover:scale-[1.02]"
             >
               Get Jottr Free
               <ArrowRightIcon className="h-5 w-5 ml-2 transition-transform duration-200 group-hover:translate-x-1" />

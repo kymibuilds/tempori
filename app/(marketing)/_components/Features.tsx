@@ -32,27 +32,29 @@ function Features() {
             return (
               <div
                 key={f.title}
-                className="group space-y-4 bg-neutral-50 p-8 rounded-md border border-neutral-100 transition"
+                className="group space-y-4 bg-gray-50 p-8 rounded-md border border-gray-200 transition"
               >
                 <div className="flex items-start justify-between mb-6">
-                  <span className="text-xs font-mono text-neutral-400">
+                  <span className="text-xs font-mono text-gray-400">
                     {f.number}
                   </span>
                   <Icon
                     className="
                       w-12 h-12
-                      text-neutral-300
+                      text-gray-300
                       stroke-[1]
                       transition-transform duration-200
                       group-hover:scale-125
-                      group-hover:text-neutral-700
+                      group-hover:text-gray-700
                     "
                   />
                 </div>
-                <h4 className="text-xl font-semibold text-neutral-900">
+
+                <h4 className="text-xl font-semibold text-gray-900">
                   {f.title}
                 </h4>
-                <p className="text-sm text-neutral-600 leading-relaxed">
+
+                <p className="text-sm text-gray-600 leading-relaxed">
                   {f.desc}
                 </p>
               </div>
