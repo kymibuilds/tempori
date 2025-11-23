@@ -26,9 +26,6 @@ import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 
-// NOTE: In a real-world scenario, you would import a component
-// like 'FocusTrap' or 'Dialog' from a UI library that manages
-// focus for accessibility. This is a placeholder for the logic.
 const TrapFocus = ({ children }) => <>{children}</>;
 
 function Navigation() {
@@ -280,21 +277,3 @@ function Navigation() {
 }
 
 export default Navigation;
-
-// --- MOCK Item Component for context ---
-// The `Item` component must include the `hover:bg-accent` class
-/*
-const Item = ({ onclick, label, icon: Icon, isSearch, isCreate }) => {
-    return (
-        <div 
-            onClick={onclick} 
-            role="button" 
-            className="flex items-center gap-x-2 px-2 py-1.5 rounded-sm text-sm hover:bg-accent text-muted-foreground transition-colors" // <--- 5. Hover BG
-        >
-            <Icon className="h-4 w-4" />
-            <span className="truncate">{label}</span>
-            // ... (rest of the component)
-        </div>
-    );
-};
-*/
