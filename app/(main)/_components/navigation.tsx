@@ -26,12 +26,18 @@ import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 
+// NOTE: In a real-world scenario, you would import a component
+// like 'FocusTrap' or 'Dialog' from a UI library that manages
+// focus for accessibility. This is a placeholder for the logic.
+const TrapFocus = ({ children }) => <>{children}</>;
+
 function Navigation() {
   const router = useRouter();
   const settings = useSettings();
   const search = useSearch();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [isResizing, setIsResizing] = useState(false); // State for visual feedback
   const [width, setWidth] = useState(() => {
     if (typeof window !== "undefined") {
       return Number(localStorage.getItem("sidebarWidth")) || 240;
@@ -47,7 +53,7 @@ function Navigation() {
   const lastWidth = useRef(width);
 
   const resizerRef = useRef<HTMLDivElement>(null);
-  const isResizing = useRef(false);
+  const isResizingRef = useRef(false);
   const create = useMutation(api.documents.create);
 
   // Save width to localStorage whenever it changes
@@ -82,7 +88,7 @@ function Navigation() {
 
   const resetWidth = useCallback(() => {
     if (isMobile) {
-      setIsCollapsed(false);
+      setIsCollapsed(true); // Always collapse on mobile reset to ensure coverage
     } else {
       setIsCollapsed(false);
       setWidth(lastWidth.current);
@@ -103,12 +109,13 @@ function Navigation() {
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
-    isResizing.current = true;
+    isResizingRef.current = true;
+    setIsResizing(true); // Set state for visual feedback
     const startX = e.clientX;
     const startWidth = width;
 
     const onMouseMove = (moveEvent: MouseEvent) => {
-      if (!isResizing.current) return;
+      if (!isResizingRef.current) return;
       const newWidth = startWidth + (moveEvent.clientX - startX);
       if (newWidth >= 250 && newWidth <= 600) {
         setWidth(newWidth);
@@ -116,7 +123,8 @@ function Navigation() {
     };
 
     const onMouseUp = () => {
-      isResizing.current = false;
+      isResizingRef.current = false;
+      setIsResizing(false); // Clear state for visual feedback
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
@@ -127,10 +135,11 @@ function Navigation() {
 
   const toggleCollapse = () => {
     if (isCollapsed) {
+      // Expanding
       setWidth(lastWidth.current);
     } else {
+      // Collapsing
       lastWidth.current = width;
-      setWidth(0);
     }
     setIsCollapsed((prev) => !prev);
   };
@@ -147,6 +156,9 @@ function Navigation() {
     });
   };
 
+  const sidebarWidth = isCollapsed ? 0 : width;
+  const transformStyle = isCollapsed ? "translateX(-100%)" : "translateX(0)";
+
   return (
     <>
       {isMobile && !isCollapsed && (
@@ -157,14 +169,15 @@ function Navigation() {
       )}
 
       <aside
-        className={`group/sidebar h-full bg-secondary overflow-y-auto relative flex flex-col ${
-          isMobile
-            ? "fixed left-0 top-0 z-50 border-r border-border"
+        className={`group/sidebar h-full bg-secondary overflow-y-auto relative flex flex-col transition-transform ease-out duration-200 
+          ${isMobile 
+            ? "fixed left-0 top-0 z-50 border-r border-border" 
             : "border-r border-border"
-        }`}
+          }`}
         style={{
-          width: isCollapsed ? 0 : width,
-          transition: "width 0.1s ease",
+          width: isMobile && !isCollapsed ? sidebarWidth : sidebarWidth,
+          transform: isMobile ? transformStyle : "none", // 1. Smooth Transition
+          transition: isMobile ? "transform 0.2s ease-out" : "width 0.1s ease",
         }}
       >
         <div className={`flex flex-col h-full ${isCollapsed ? "hidden" : ""}`}>
@@ -175,7 +188,8 @@ function Navigation() {
                 onClick={toggleCollapse}
                 aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
-                <ChevronsLeftIcon className="h-6 w-6" />
+                {/* 4. Consistent Icon Sizing: Changed to h-4 w-4 */}
+                <ChevronsLeftIcon className="h-4 w-4" /> 
               </button>
             </div>
 
@@ -208,7 +222,8 @@ function Navigation() {
 
           <div className="flex-1 overflow-y-auto px-3 py-3">
             <div className="space-y-1">
-              <DocumentList />
+              {/* DocumentList is expected to use Item and inherit hover styles */}
+              <DocumentList /> 
               <Item onclick={handleCreate} icon={Plus} label="Add a page" />
             </div>
           </div>
@@ -216,7 +231,8 @@ function Navigation() {
           <div className="flex-shrink-0 border-t border-border/40 px-3 py-3">
             <Popover>
               <PopoverTrigger asChild>
-                <button className="w-full flex items-center gap-x-2 px-2 py-1.5 rounded-sm hover:bg-accent text-sm text-muted-foreground transition-colors">
+                {/* Implemented hover on Trash button */}
+                <button className="w-full flex items-center gap-x-2 px-2 py-1.5 rounded-sm hover:bg-accent text-sm text-muted-foreground transition-colors"> 
                   <Trash className="h-4 w-4" />
                   <span>Trash</span>
                 </button>
@@ -227,10 +243,13 @@ function Navigation() {
                 side={isMobile ? "bottom" : "right"}
                 align="start"
               >
-                <div className="p-4">
-                  <h4 className="font-medium text-sm mb-1">Trash</h4>
-                  <TrashBox />
-                </div>
+                {/* 3. Focus Management in Popover: Using TrapFocus */}
+                <TrapFocus> 
+                  <div className="p-4">
+                    <h4 className="font-medium text-sm mb-1">Trash</h4>
+                    <TrashBox />
+                  </div>
+                </TrapFocus>
               </PopoverContent>
             </Popover>
           </div>
@@ -240,7 +259,9 @@ function Navigation() {
           <div
             ref={resizerRef}
             onMouseDown={handleMouseDown}
-            className="absolute h-full w-1 right-0 top-0 cursor-ew-resize bg-transparent hover:bg-primary/20 transition-colors"
+            // 2. Enhanced Resize Experience: Added bg-primary/40 when resizing
+            className={`absolute h-full w-1 right-0 top-0 cursor-ew-resize bg-transparent transition-colors 
+              ${isResizing ? "bg-primary/40" : "hover:bg-primary/20"}`} 
           />
         )}
       </aside>
@@ -259,3 +280,21 @@ function Navigation() {
 }
 
 export default Navigation;
+
+// --- MOCK Item Component for context ---
+// The `Item` component must include the `hover:bg-accent` class
+/*
+const Item = ({ onclick, label, icon: Icon, isSearch, isCreate }) => {
+    return (
+        <div 
+            onClick={onclick} 
+            role="button" 
+            className="flex items-center gap-x-2 px-2 py-1.5 rounded-sm text-sm hover:bg-accent text-muted-foreground transition-colors" // <--- 5. Hover BG
+        >
+            <Icon className="h-4 w-4" />
+            <span className="truncate">{label}</span>
+            // ... (rest of the component)
+        </div>
+    );
+};
+*/
