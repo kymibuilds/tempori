@@ -26,7 +26,6 @@ import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 
-// FIXED: explicitly typed children
 const TrapFocus = ({ children }: { children: React.ReactNode }) => <>{children}</>;
 
 function Navigation() {
@@ -167,7 +166,7 @@ function Navigation() {
             : "border-r border-border"
           }`}
         style={{
-          width: isMobile && !isCollapsed ? sidebarWidth : sidebarWidth,
+          width: isMobile ? "100vw" : sidebarWidth,
           transform: isMobile ? transformStyle : "none",
           transition: isMobile ? "transform 0.2s ease-out" : "width 0.1s ease",
         }}
